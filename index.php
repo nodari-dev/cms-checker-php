@@ -1,6 +1,5 @@
 <?php 
 
-<<<<<<< HEAD
 
 //ADD HTTP OR HTTPS IF DOESNT EXIST
 function http_https(&$urls)
@@ -38,7 +37,6 @@ function http_https(&$urls)
             $el_check_id++;
         }
         $i++;
-=======
 $urls = [
     'https://magecloud.agency/',
     'http://insulationstop.com/',
@@ -54,22 +52,18 @@ $check_list=[
     'pub/static/',//Magetno 2
     'static/version',//Magento 2
 ];
-<<<<<<< HEAD
 
 
 function get_web($urls){
     global $websites;
-=======
 $websites = [];
 function get_web($urls, $websites){
->>>>>>> 14f2a9312e74cba8779835f48bfd466e94053cd9
     $urls_download = 0;
     $a = 0;
     for ($i=0; $i < sizeof($urls); $i++){
         $websites[$a] = file_get_contents($urls[$urls_download]);
         $a++;
         $urls_download++;
->>>>>>> f6669b90194710fd9372834d94446cfa16711442
     }
 }
 //ADD HTTP OR HTTPS IF DOESNT EXIST
@@ -113,7 +107,6 @@ function check_web($urls, $check_list, &$result)
                     $result[$web_el_id] = array($web_el_id,$urls[$web_el_id],'magento 2');
                 echo $urls[$web_el_id].' magento 2';
 
-<<<<<<< HEAD
                     $web_el_id++;
         }
         elseif (strpos(file_get_contents($urls[$web_el_id]), $check_list[7]) 
@@ -168,7 +161,6 @@ function check_web($urls, $check_list, &$result)
             }
         }
         $i++;
-=======
 function check_web($websites, $check_list, $urls){
     $result_web[0] = array('Number', 'Website', 'CMS');
     $result_web_el_id = 1;
@@ -211,12 +203,10 @@ function check_web($websites, $check_list, $urls){
         }
     $i++;
 
->>>>>>> f6669b90194710fd9372834d94446cfa16711442
     }
     print_r($result_web);
 }
 
-<<<<<<< HEAD
 get_web($urls);
 check_web($websites, $check_list, $urls);
 header('Content-Type: text/csv');
@@ -226,7 +216,6 @@ $fp = fopen('../table.csv', 'w');
 foreach ($result_web as $fields) {
     fputcsv($fp, $fields, ',');
 }
-<<<<<<< HEAD
 //CHECK ALL WEBISTES
 
 
@@ -298,13 +287,8 @@ else{
      echo '<p>No websites selected</p>';
 }
 
-?>
-=======
 fclose($fp);
 
-=======
 get_web($urls, $websites);
 check_web($websites, $check_list);
->>>>>>> 14f2a9312e74cba8779835f48bfd466e94053cd9
 ?>
->>>>>>> f6669b90194710fd9372834d94446cfa16711442
