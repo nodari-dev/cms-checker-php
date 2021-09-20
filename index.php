@@ -31,7 +31,7 @@ $check_list=[
     '_shopify_ga',//Cookie shopify
     'cdn.shopify',//Shopify
 
-    'extensions', //Netsuite
+
 ];
 
 //ADD HTTP OR HTTPS IF DOESNT EXIST
