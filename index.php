@@ -245,8 +245,7 @@ function save_result($result){
     }
     else {
         echo $relative_pathrelative_path;
-        $fp = fopen('./results/' .'result-'.date("D-M-j_").$counter.'.csv', 'w');
-    }
+        $fp = fopen('./results/' .'result-'.date("D-M-j_").$counter.'.csv', 'w');}
             foreach ($result as $fields) {
             fputcsv($fp, $fields);
         }

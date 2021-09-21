@@ -8,6 +8,7 @@ $CHECKER = [
 ];
 
 $PERCENTAGE = [
+    "no cms found" => 1,
     "shopify" => 0,
     "wordpress" => 0,
     "magento 1" => 0,
@@ -15,11 +16,15 @@ $PERCENTAGE = [
 ];
 
 function openFile($file){
-    $handle = fopen($file, "r");
+    /**
+     * Opens file and starts
+     *
+     * @param string $file opens and set every new line as website
+     */
 
+    $handle = fopen($file, "r");
     if ($handle) {
         while (($websiteLink = fgets($handle)) !== false) {
-            echo $websiteLink . "\n";
             checkContent(getWebsite($websiteLink));
         }
         fclose($handle);
@@ -28,7 +33,15 @@ function openFile($file){
     }
 }
 
-function getWebsite($link) : string{
+function getWebsite($link) : array{
+    /**
+     * Curling website and checking 301 redirect if happened
+     *
+     * @param string $link as a full website link
+     *
+     * @return string $html as a full page document
+     */
+
     echo "getting website html..." . "\n";
     $ch = curl_init($link);
     curl_setopt($ch, CURLOPT_HEADER, false);
@@ -39,30 +52,37 @@ function getWebsite($link) : string{
     curl_setopt($ch, CURLOPT_TIMEOUT, 60);
     $html = curl_exec($ch);
     curl_close($ch);
-    return $html;
+    return array("html" => $html, "link" => $link);
 }
 
 function checkContent($content){
+    /**
+     * Finding keywords from $content
+     * We use associated array $checker for checking
+     * And every found result will be +1 to $percentage[$cms]
+     *
+     * @param string $link as a full website link
+     */
+
     $checker = $GLOBALS['CHECKER'];
     $percentage = $GLOBALS['PERCENTAGE'];
 
-    foreach ($checker as $key => $value) {
-        foreach ($value as $val){
-            if(strpos($content, $val)){
-                $percentage[$key] += substr_count($content, $val);
-                echo "FOUND $key " . $percentage[$key] . "\n";
+    foreach ($checker as $cms => $value) {
+        foreach ($value as $keyword){
+            if(strpos($content["html"], $keyword)){
+                $percentage[$cms] += substr_count($content["html"], $keyword);
             }
         }
     }
-    saveResult();
+    generateResult($percentage, $content["link"]);
 }
 
-function saveResult(){
-    echo "test";
-    //TODO: Add correct comments to all functions
-    //TODO: Generate result based on scoreboard
-    //TODO: Save result file with all websites
-//    $fileName = './results/' .'result-'.date("D-M-j_").$counter.'.csv';
+function chooseCMS($percentage):string{
+    return array_search(max($percentage), $percentage);
 }
 
+function generateResult($percentage, $link){
+    echo $link . " " . chooseCMS($percentage)."\n";
+    //TODO: save result as csv file
+}
 openFile("websites.txt");
