@@ -78,6 +78,13 @@ function checkContent($content){
 }
 
 function chooseCMS($percentage):string{
+    /**
+     * get max value from $percentage and return cms
+     *
+     * @param array $percentage with all cms`s
+     *
+     * @return string with correct website cms
+     */
     return array_search(max($percentage), $percentage);
 }
 
